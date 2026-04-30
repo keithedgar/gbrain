@@ -580,6 +580,7 @@ const query: Operation = {
     limit: { type: 'number', description: 'Max results (default 20)' },
     offset: { type: 'number', description: 'Skip first N results (for pagination)' },
     expand: { type: 'boolean', description: 'Enable multi-query expansion (default: true)' },
+    type: { type: 'string', description: 'Filter by page type (e.g., decision, concept, meeting, build_learning)' },
     detail: { type: 'string', description: 'Result detail level: low (compiled truth only), medium (default, all with dedup), high (all chunks)' },
     // v0.20.0 Cathedral II Layer 10 C1/C2: language + symbol-kind filters.
     lang: { type: 'string', description: 'Filter to chunks where content_chunks.language matches (e.g., typescript, python, ruby)' },
@@ -594,6 +595,7 @@ const query: Operation = {
     return hybridSearch(ctx.engine, p.query as string, {
       limit: (p.limit as number) || 20,
       offset: (p.offset as number) || 0,
+      type: (p.type as PageType) || undefined,
       expansion: expand,
       expandFn: expand ? expandQuery : undefined,
       detail,
