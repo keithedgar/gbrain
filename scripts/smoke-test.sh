@@ -112,6 +112,10 @@ if [ -n "$GBRAIN_DIR" ] && [ -n "$BUN_PATH" ] && [ -n "$DB_URL" ]; then
   else
     # Auto-fix: start worker
     DATABASE_URL="$DB_URL" GBRAIN_DATABASE_URL="$DB_URL" GBRAIN_ALLOW_SHELL_JOBS=1 \
+      GBRAIN_LLM_PROVIDER="${GBRAIN_LLM_PROVIDER:-inference-plane}" \
+      GBRAIN_INFERENCE_BASE_URL="${GBRAIN_INFERENCE_BASE_URL:-${LLM_URL:-}}" \
+      GBRAIN_INFERENCE_API_KEY="${GBRAIN_INFERENCE_API_KEY:-${OPENAI_API_KEY:-crsai-internal}}" \
+      GBRAIN_INFERENCE_MODEL="${GBRAIN_INFERENCE_MODEL:-${LLM_MODEL:-qwq-32b-q4}}" \
       nohup "$BUN_PATH" run "$GBRAIN_DIR/src/cli.ts" jobs work --concurrency 2 > /tmp/gbrain-worker.log 2>&1 &
     echo $! > /tmp/gbrain-worker.pid
     sleep 2
